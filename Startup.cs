@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SalesManager.Data;
+using SalesManager.Services;
 
 namespace SalesManager
 {
@@ -52,6 +53,8 @@ namespace SalesManager
             //Permitindo que eu passe um obj da classe SeedingService como parametro para ser resolvido assim que a aplicação for executada.
             services.AddScoped<SeedingService>();
 
+            //Registra a classe SellerService
+            services.AddScoped<SellerService>();
         }
 
         /*Para poder adicionar um objeto e configurar a aplicação no método Configure é necessário registrar a injeção de depenência da classe
