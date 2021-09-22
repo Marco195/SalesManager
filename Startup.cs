@@ -47,14 +47,23 @@ namespace SalesManager
             services.AddDbContext<SalesManagerContext>(options =>
                                                         options.UseMySql(Configuration.GetConnectionString("SalesManagerContext"), builder =>
                                                         builder.MigrationsAssembly("SalesManager")));//Deixar o nome da solução
+
+            //Registra o serviço da aplicação "SeedingService" para poder utilizar no método abaixo "Configure.
+            //Permitindo que eu passe um obj da classe SeedingService como parametro para ser resolvido assim que a aplicação for executada.
+            services.AddScoped<SeedingService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        //public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, SeedingService seedingService) 
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                //Ja executa a população de banco no inicio da execução da aplicação
+                seedingService.Seed();
             }
             else
             {
