@@ -27,5 +27,16 @@ namespace SalesManager.Services
             //Vai na tabela "Seller" e retorna todos os registro do BD
             return _context.Seller.ToList();
         }
+
+        /// <summary>
+        /// Insert a new Seller on DB.
+        /// </summary>
+        /// <param name="obj"></param>
+        public void Insert(Seller obj)
+        {
+            obj.Department = _context.Department.First();
+            _context.Add(obj);
+            _context.SaveChanges();
+        }
     }
 }

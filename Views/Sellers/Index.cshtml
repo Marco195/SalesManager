@@ -8,6 +8,10 @@
 
 <h2>@ViewData["Title"]</h2>
 
+<p>
+    <a asp-action="Create" class="btn btn-default">Create New <span class="glyphicon glyphicon-plus-sign"></span></a>
+</p>
+
 <table class="table table-striped table-hover">
     <thead class="success">
         @*Cabeçalho da tabela*@
@@ -30,29 +34,29 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BirthDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Basesalary)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> @*asp-route-id ja recebe o Id do item selecionado a ser editado*@
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-            </td>
-            <td>
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BirthDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Basesalary)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit <span class="glyphicon glyphicon-edit"></span></a> @*asp-route-id ja recebe o Id do item selecionado a ser editado*@
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details <span class="glyphicon glyphicon-list-alt"></span></a>
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete <span class="glyphicon glyphicon-trash"></span></a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
