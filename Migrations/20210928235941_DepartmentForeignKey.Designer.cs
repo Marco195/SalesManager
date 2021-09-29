@@ -9,7 +9,7 @@ using SalesManager.Data;
 namespace SalesManager.Migrations
 {
     [DbContext(typeof(SalesManagerContext))]
-    [Migration("20210924001245_DepartmentForeignKey")]
+    [Migration("20210928235941_DepartmentForeignKey")]
     partial class DepartmentForeignKey
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,7 +60,7 @@ namespace SalesManager.Migrations
 
                     b.Property<DateTime>("BirthDate");
 
-                    b.Property<int>("DepartmentID");
+                    b.Property<int>("DepartmentId");
 
                     b.Property<string>("Email");
 
@@ -68,7 +68,7 @@ namespace SalesManager.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DepartmentID");
+                    b.HasIndex("DepartmentId");
 
                     b.ToTable("Seller");
                 });
@@ -84,7 +84,7 @@ namespace SalesManager.Migrations
                 {
                     b.HasOne("SalesManager.Models.Department", "Department")
                         .WithMany("Sellers")
-                        .HasForeignKey("DepartmentID")
+                        .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

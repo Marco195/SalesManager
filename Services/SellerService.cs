@@ -1,4 +1,5 @@
-﻿using SalesManager.Data;
+﻿using Microsoft.EntityFrameworkCore.Internal;
+using SalesManager.Data;
 using SalesManager.Models;
 using System;
 using System.Collections.Generic;
@@ -34,8 +35,28 @@ namespace SalesManager.Services
         /// <param name="obj"></param>
         public void Insert(Seller obj)
         {
-            obj.Department = _context.Department.First();
             _context.Add(obj);
+            _context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Find Seller by Id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Seller FindById(int id)
+        {
+            return _context.Seller.FirstOrDefault(obj => obj.Id == id);
+        }
+
+        /// <summary>
+        /// Delete Seller from DB.
+        /// </summary>
+        /// <param name="id"></param>
+        public void Remove(int id)
+        {
+            var obj = _context.Seller.Find(id);
+            _context.Seller.Remove(obj);
             _context.SaveChanges();
         }
     }
