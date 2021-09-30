@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Internal;
+﻿using Microsoft.EntityFrameworkCore;
 using SalesManager.Data;
 using SalesManager.Models;
 using System;
@@ -12,8 +12,7 @@ namespace SalesManager.Services
     {
         private readonly SalesManagerContext _context;
 
-        /*O obj do tipo "Context" é reposnsável por lidar com a insteração com o banco de dados através do C# */
-
+        /*O obj do tipo "Context" é reponsável por lidar com a interação com o banco de dados através do C# */
         public SellerService(SalesManagerContext context)
         {
             _context = context;
@@ -46,7 +45,8 @@ namespace SalesManager.Services
         /// <returns></returns>
         public Seller FindById(int id)
         {
-            return _context.Seller.FirstOrDefault(obj => obj.Id == id);
+            //também retorna o Department atravésd o Include. O entity realiza o Join das tabelas através do include
+            return _context.Seller.Include(obj => obj.Department).FirstOrDefault(obj => obj.Id == id);
         }
 
         /// <summary>

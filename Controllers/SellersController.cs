@@ -69,5 +69,23 @@ namespace SalesManager.Controllers
             _sellerService.Remove(id);
             return RedirectToAction(nameof(Index));
         }
+
+        public IActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var obj = _sellerService.FindById(id.Value); //Busca o Seller por ID
+
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            //Passa o Seller encontrado para a View
+            return View(obj);
+        }
     }
 }
