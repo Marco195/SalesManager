@@ -7,6 +7,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SalesManager.Data;
 using SalesManager.Services;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using System.Collections.Generic;
 
 namespace SalesManager
 {
@@ -67,6 +70,17 @@ namespace SalesManager
         //public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, SeedingService seedingService) 
         {
+            //Realiza a troca de cultura para o tipo americano
+            var enUS = new CultureInfo("en-US");
+            var localizationOptions = new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture(enUS),
+                SupportedCultures = new List<CultureInfo> { enUS },
+                SupportedUICultures = new List<CultureInfo> { enUS}
+            };
+
+            app.UseRequestLocalization(localizationOptions);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
