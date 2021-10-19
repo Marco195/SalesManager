@@ -33,7 +33,7 @@ namespace SalesManager.Controllers
 
         public async Task<IActionResult> Create()
         {
-            var departments =await _departmentService.FindAllAsync();
+            var departments = await _departmentService.FindAllAsync();
             var viewModel = new SellerFormViewModel { Departments = departments };
             //Chama a view Create e passo uma lista com todos os departamentos para a View
             return View(viewModel);
@@ -58,7 +58,7 @@ namespace SalesManager.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction(nameof(Error), new { message = "Id not provided."});
+                return RedirectToAction(nameof(Error), new { message = "Id not provided." });
             }
 
             var obj = await _sellerService.FindByIdAsync(id.Value); //Busca o Seller por ID
@@ -76,8 +76,15 @@ namespace SalesManager.Controllers
         [ValidateAntiForgeryToken] //Previne o ataque de sessão
         public async Task<IActionResult> Delete(int id)
         {
-            await _sellerService.RemoveAsync(id);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                await _sellerService.RemoveAsync(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (IntegrityException e)
+            {
+                return RedirectToAction(nameof(Error), new { message = e.Message });
+            }
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -98,7 +105,7 @@ namespace SalesManager.Controllers
             return View(obj);
         }
 
-        public async Task<IActionResult >Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
