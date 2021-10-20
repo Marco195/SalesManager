@@ -61,6 +61,9 @@ namespace SalesManager
 
             //Registra a classe DepartmentService
             services.AddScoped<DepartmentService>();
+
+            //Registra a classe SalesRecordService
+            services.AddScoped<SalesRecordService>();
         }
 
         /*Para poder adicionar um objeto e configurar a aplicação no método Configure é necessário registrar a injeção de depenência da classe
