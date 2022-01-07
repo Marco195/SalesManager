@@ -6,6 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SalesManager.Data;
+using SalesManager.Services;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using System.Collections.Generic;
 
 namespace SalesManager
 {
@@ -47,14 +51,45 @@ namespace SalesManager
             services.AddDbContext<SalesManagerContext>(options =>
                                                         options.UseMySql(Configuration.GetConnectionString("SalesManagerContext"), builder =>
                                                         builder.MigrationsAssembly("SalesManager")));//Deixar o nome da solução
+
+            //Registra o serviço da aplicação "SeedingService" para poder utilizar no método abaixo "Configure.
+            //Permitindo que eu passe um obj da classe SeedingService como parametro para ser resolvido assim que a aplicação for executada.
+            services.AddScoped<SeedingService>();
+
+            //Registra a classe SellerService
+            services.AddScoped<SellerService>();
+
+            //Registra a classe DepartmentService
+            services.AddScoped<DepartmentService>();
+
+            //Registra a classe SalesRecordService
+            services.AddScoped<SalesRecordService>();
         }
 
+        /*Para poder adicionar um objeto e configurar a aplicação no método Configure é necessário registrar a injeção de depenência da classe
+         utilizando services.AddScoped<NomeDaClase>()*/
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        //public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, SeedingService seedingService) 
         {
+            //Realiza a troca de cultura para o tipo americano
+            var enUS = new CultureInfo("en-US");
+            var localizationOptions = new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture(enUS),
+                SupportedCultures = new List<CultureInfo> { enUS },
+                SupportedUICultures = new List<CultureInfo> { enUS}
+            };
+
+            app.UseRequestLocalization(localizationOptions);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                //Ja executa a população de banco no inicio da execução da aplicação
+                seedingService.Seed();
             }
             else
             {
